@@ -1,4 +1,4 @@
-package pucrs.alpro3np.recursividade;
+package br.pucrs.alpro3np.recursividade;
 
 public class MyMath {
 

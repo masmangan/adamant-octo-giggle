@@ -1,4 +1,4 @@
-package pucrs.alpro3np.ordenacao;
+package br.pucrs.alpro3np.ordenacao;
 
 import java.util.Arrays;
 
