@@ -1,21 +1,34 @@
 package br.pucrs.br.alpro3np.arvores;
 
-
+/**
+ * 
+ * @author marco.mangan@pucrs.br
+ *
+ */
 public class BinarySearchTree {
 
 	private Node root;
 
+	/**
+	 * 
+	 * @param key
+	 */
 	public void addObject(int key) {
 		root = addObject0(root, key);
 	}
 
+	/**
+	 * 
+	 * @param node
+	 * @param key
+	 * @return
+	 */
 	private Node addObject0(Node node, int key) {
 		if (node == null)
 			return new Node(key);
 
 		if (key < node.key) {
 			node.left = addObject0(node.left, key);
-
 			if (h(node.left) - h(node.right) == 2) {
 				System.out.println("Desequilibrada!" + node.key);
 			}
