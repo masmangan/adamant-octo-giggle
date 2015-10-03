@@ -30,13 +30,20 @@ public class BinarySearchTree {
 		if (key < node.key) {
 			node.left = addObject0(node.left, key);
 			if (h(node.left) - h(node.right) == 2) {
-				System.out.println("Desequilibrada!" + node.key);
+				if (key < node.left.key) {
+					node = rotateWithLeftChild(node);
+				} else {
+					node = doubleWithLeftChild(node);
+				}
 			}
-
-		} else if (key > node.key){
+		} else if (key > node.key) {
 			node.right = addObject0(node.right, key);
 			if (h(node.left) - h(node.right) == -2) {
-				System.out.println("Desequilibrada!" + node.key);
+				if (key > node.right.key) {
+					node = rotateWithRightChild(node);
+				} else {
+					node = doubleWithRightChild(node);
+				}
 			}
 
 		} else
@@ -46,6 +53,37 @@ public class BinarySearchTree {
 		node.height = 1 + Math.max(h(node.left), h(node.right));
 
 		return node;
+	}
+
+	private Node doubleWithRightChild(Node k1) {
+		k1.right = rotateWithLeftChild(k1.right);		
+		return rotateWithRightChild(k1);
+	}
+
+	private Node doubleWithLeftChild(Node k3) {
+		k3.left = rotateWithRightChild(k3.left);
+		return rotateWithLeftChild(k3);
+	}
+
+	private Node rotateWithLeftChild(Node k2) {
+		Node k1 = k2.left;
+		k2.left = k1.right;
+		k1.right = k2;
+
+		k2.height = 1 + Math.max(h(k2.left), h(k2.right));
+		k1.height = 1 + Math.max(h(k1.left), k2.height);
+		return k1;
+	}
+
+	private Node rotateWithRightChild(Node k1) {
+		Node k2 = k1.right;
+		k1.right = k2.left;
+		k2.left = k1;
+
+		k1.height = 1 + Math.max(h(k1.left), h(k1.right));
+		k2.height = 1 + Math.max(k1.height, h(k2.right));
+
+		return k2;
 	}
 
 	private int h(Node node) {

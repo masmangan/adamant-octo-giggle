@@ -8,8 +8,8 @@ public class BinarySearchTreeTest {
 		BinarySearchTree tree = new BinarySearchTree();
 
 		tree.addObject(10);
-		tree.addObject(20);
 		tree.addObject(30);
+		tree.addObject(20);
 		
 		System.out.println(tree);		
 		System.out.println(tree.isBalanced());
