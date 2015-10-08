@@ -1,5 +1,8 @@
 package br.pucrs.br.alpro3np.arvores;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  * @author marco.mangan@pucrs.br
@@ -47,8 +50,7 @@ public class BinarySearchTree {
 			}
 
 		} else
-			throw new IllegalArgumentException(
-					Messages.getString("BinarySearchTree.0")); //$NON-NLS-1$
+			throw new IllegalArgumentException("Duplicate Key!"); //$NON-NLS-1$
 
 		node.height = 1 + Math.max(h(node.left), h(node.right));
 
@@ -56,7 +58,7 @@ public class BinarySearchTree {
 	}
 
 	private Node doubleWithRightChild(Node k1) {
-		k1.right = rotateWithLeftChild(k1.right);		
+		k1.right = rotateWithLeftChild(k1.right);
 		return rotateWithRightChild(k1);
 	}
 
@@ -182,4 +184,47 @@ public class BinarySearchTree {
 
 	}
 
+	public int getMax() {
+		return getMax0(root);
+	}
+
+	private int getMax0(Node node) {
+		if (node == null)
+			throw new IllegalArgumentException("Root is null!");
+		if (node.right == null)
+			return node.key;
+		return getMax0(node.right);
+	}
+
+	public int getMin() {
+		if (root == null)
+			throw new IllegalArgumentException("Root is null!");
+
+		Node n = root;
+		while (n.left != null) {
+			n = n.left;
+		}
+		return n.key;
+		
+	}
+
+	public List<Integer> getPath(int key) {
+		return getPath0(root, key, new ArrayList<>());
+	}
+
+	private List<Integer> getPath0(Node node, int key, ArrayList<Integer> path) {
+		if (node == null)
+			throw new IllegalArgumentException("Key not found!");
+		path.add(node.key);
+		if (key < node.key)
+			return getPath0(node.left, key, path);
+		if (key > node.key)
+			return getPath0(node.right, key, path);
+		return path;
+	}
+
+	// TODO: getParent()
+	// TODO: getUncle()
+	
+	
 }

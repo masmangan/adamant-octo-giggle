@@ -7,12 +7,14 @@ public class BinarySearchTreeTest {
 		System.out.println("Teste");
 		BinarySearchTree tree = new BinarySearchTree();
 
-		tree.addObject(10);
-		tree.addObject(30);
-		tree.addObject(20);
+		for (int i = 1; i <= 1024; i++) {
+			tree.addObject(i);			
+		}
 		
 		System.out.println(tree);		
 		System.out.println(tree.isBalanced());
+		System.out.println(tree.getMax());
+		System.out.println(tree.getPath(30));
 		
 	}
 }
