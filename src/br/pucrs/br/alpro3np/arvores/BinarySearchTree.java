@@ -8,15 +8,15 @@ import java.util.List;
  * @author marco.mangan@pucrs.br
  *
  */
-public class BinarySearchTree {
+public class BinarySearchTree<T extends Comparable<T>> {
 
-	private Node root;
+	private Node<T> root;
 
 	/**
 	 * 
 	 * @param key
 	 */
-	public void addObject(int key) {
+	public void addObject(T key) {
 		root = addObject0(root, key);
 	}
 
@@ -26,23 +26,24 @@ public class BinarySearchTree {
 	 * @param key
 	 * @return
 	 */
-	private Node addObject0(Node node, int key) {
+	private Node<T> addObject0(Node<T> node, T key) {
 		if (node == null)
-			return new Node(key);
+			return new Node<>(key);
 
-		if (key < node.key) {
+		if (key.compareTo(node.key) < 0) {
 			node.left = addObject0(node.left, key);
+
 			if (h(node.left) - h(node.right) == 2) {
-				if (key < node.left.key) {
+				if (key.compareTo(node.left.key) < 0) {
 					node = rotateWithLeftChild(node);
 				} else {
 					node = doubleWithLeftChild(node);
 				}
 			}
-		} else if (key > node.key) {
+		} else if (key.compareTo(node.key) > 0) {
 			node.right = addObject0(node.right, key);
 			if (h(node.left) - h(node.right) == -2) {
-				if (key > node.right.key) {
+				if (key.compareTo(node.right.key) > 0) {
 					node = rotateWithRightChild(node);
 				} else {
 					node = doubleWithRightChild(node);
@@ -57,18 +58,18 @@ public class BinarySearchTree {
 		return node;
 	}
 
-	private Node doubleWithRightChild(Node k1) {
+	private Node<T> doubleWithRightChild(Node<T> k1) {
 		k1.right = rotateWithLeftChild(k1.right);
 		return rotateWithRightChild(k1);
 	}
 
-	private Node doubleWithLeftChild(Node k3) {
+	private Node<T> doubleWithLeftChild(Node<T> k3) {
 		k3.left = rotateWithRightChild(k3.left);
 		return rotateWithLeftChild(k3);
 	}
 
-	private Node rotateWithLeftChild(Node k2) {
-		Node k1 = k2.left;
+	private Node<T> rotateWithLeftChild(Node<T> k2) {
+		Node<T> k1 = k2.left;
 		k2.left = k1.right;
 		k1.right = k2;
 
@@ -77,8 +78,8 @@ public class BinarySearchTree {
 		return k1;
 	}
 
-	private Node rotateWithRightChild(Node k1) {
-		Node k2 = k1.right;
+	private Node<T> rotateWithRightChild(Node<T> k1) {
+		Node<T> k2 = k1.right;
 		k1.right = k2.left;
 		k2.left = k1;
 
@@ -88,43 +89,100 @@ public class BinarySearchTree {
 		return k2;
 	}
 
-	private int h(Node node) {
+	private int h(Node<T> node) {
 		return node == null ? -1 : node.height;
+	}
+
+	public void preorder() {
+		System.out.println("Pre-order/Pre-ordem/Prefixado");
+		preOrder0(root);
+		System.out.println();
+	}
+
+	private void preOrder0(Node<T> node) {
+		if (node != null) {
+			System.out.print(" " + node.key);
+			preOrder0(node.left);
+			preOrder0(node.right);
+		}
+	}
+
+	public void postOrder() {
+		System.out.println("Post-order/Pós-ordem/Pósfixado");
+		postOrder0(root);
+		System.out.println();
+	}
+
+	private void postOrder0(Node<T> node) {
+		if (node != null) {
+			postOrder0(node.left);
+			postOrder0(node.right);
+			System.out.print(" " + node.key);
+		}
+	}
+
+	public void central() {
+		System.out.println("Central/Infixado");
+		central0(root);
+		System.out.println();
+	}
+
+	private void central0(Node<T> node) {
+		if (node != null) {
+			central0(node.left);
+			System.out.print(" " + node.key);
+			central0(node.right);
+		}
 	}
 
 	@Override
 	public String toString() {
-		return String.format("BinarySearchTree %n[root=%s]", //$NON-NLS-1$
+		return String.format("BinarySearchTree [root=%s]", //$NON-NLS-1$
 				toString0(root));
 	}
 
-	private String toString0(Node node) {
+	/**
+	 * Pre-order
+	 * 
+	 * @param node
+	 * @return
+	 */
+	private String toString0(Node<T> node) {
 		if (node == null)
 			return " # "; //$NON-NLS-1$
 		int delta = getHeight0(node.left) - getHeight0(node.right);
 
 		String msg = String
-				.format(" %d degree = %d level = %d height = %d delta = %d father = ? uncle = ? %n[%s] %n[%s]",
+				.format(" %s degree = %d level = %d height = %d delta = %d father = ? uncle = ? %n[%s] %n[%s]",
 						node.key, degree(node), level(node), h(node), delta,
 						toString0(node.left), toString0(node.right));
 
 		return msg;
 	}
 
-	private int level(Node node) {
+	private int level(Node<T> node) {
 		return level0(root, node, 0);
 	}
 
-	private int level0(Node node, Node target, int level) {
-		if (target.key < node.key)
+	/**
+	 * 
+	 * @param node
+	 * @param target
+	 * @param level
+	 * @return
+	 */
+	private int level0(Node<T> node, Node<T> target, int level) {
+		// if (target.key < node.key)
+		if (target.key.compareTo(node.key) < 0)
 			return level0(node.left, target, level + 1);
-		else if (target.key > node.key)
+		// else if (target.key > node.key)
+		else if (target.key.compareTo(node.key) > 0)
 			return level0(node.right, target, level + 1);
 		else
 			return level;
 	}
 
-	private int degree(Node node) {
+	private int degree(Node<T> node) {
 		if (node == null)
 			return -1;
 
@@ -139,17 +197,19 @@ public class BinarySearchTree {
 		return d;
 	}
 
-	public boolean containsObject(int key) {
+	public boolean containsObject(T key) {
 		return containsObject0(root, key);
 	}
 
-	private boolean containsObject0(Node node, int key) {
+	private boolean containsObject0(Node<T> node, T key) {
 		if (node == null)
 			return false;
 
-		if (key < node.key)
+		// if (key < node.key)
+		if (key.compareTo(node.key) < 0)
 			return containsObject0(node.left, key);
-		else if (key > node.key)
+		// else if (key > node.key)
+		else if (key.compareTo(node.key) > 0)
 			return containsObject0(node.right, key);
 
 		return true;
@@ -159,19 +219,32 @@ public class BinarySearchTree {
 		return getHeight0(root);
 	}
 
-	private int getHeight0(Node node) {
+	/**
+	 * Post-order
+	 * 
+	 * @param node
+	 * @return
+	 */
+	private int getHeight0(Node<T> node) {
 		if (node == null)
 			return -1;
+		int hl = getHeight0(node.left);
+		int hr = getHeight0(node.right);
 
-		return 1 + Math.max(getHeight0(node.left), getHeight0(node.right));
-
+		return 1 + Math.max(hl, hr);
 	}
 
 	public boolean isBalanced() {
 		return isBalanced0(root);
 	}
 
-	private boolean isBalanced0(Node node) {
+	/**
+	 * Pre-order
+	 * 
+	 * @param node
+	 * @return
+	 */
+	private boolean isBalanced0(Node<T> node) {
 		if (node == null)
 			return true;
 
@@ -184,11 +257,11 @@ public class BinarySearchTree {
 
 	}
 
-	public int getMax() {
+	public T getMax() {
 		return getMax0(root);
 	}
 
-	private int getMax0(Node node) {
+	private T getMax0(Node<T> node) {
 		if (node == null)
 			throw new IllegalArgumentException("Root is null!");
 		if (node.right == null)
@@ -196,35 +269,36 @@ public class BinarySearchTree {
 		return getMax0(node.right);
 	}
 
-	public int getMin() {
+	public T getMin() {
 		if (root == null)
 			throw new IllegalArgumentException("Root is null!");
 
-		Node n = root;
+		Node<T> n = root;
 		while (n.left != null) {
 			n = n.left;
 		}
 		return n.key;
-		
+
 	}
 
-	public List<Integer> getPath(int key) {
+	public List<T> getPath(T key) {
 		return getPath0(root, key, new ArrayList<>());
 	}
 
-	private List<Integer> getPath0(Node node, int key, ArrayList<Integer> path) {
+	private List<T> getPath0(Node<T> node, T key, ArrayList<T> path) {
 		if (node == null)
 			throw new IllegalArgumentException("Key not found!");
 		path.add(node.key);
-		if (key < node.key)
+		// if (key < node.key)
+		if (key.compareTo(node.key) < 0)
 			return getPath0(node.left, key, path);
-		if (key > node.key)
+		// if (key > node.key)
+		if (key.compareTo(node.key) > 0)
 			return getPath0(node.right, key, path);
 		return path;
 	}
 
 	// TODO: getParent()
 	// TODO: getUncle()
-	
-	
+
 }
