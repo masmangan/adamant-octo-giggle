@@ -301,4 +301,21 @@ public class BinarySearchTree<T extends Comparable<T>> {
 	// TODO: getParent()
 	// TODO: getUncle()
 
+	public List<T> getLevel(int n) {
+		List<T> level = new ArrayList<>();
+		getLevel0(root, n, level, 0);
+		return level;
+	}
+
+	private void getLevel0(Node<T> node, int n, List<T> level, int actual) {
+		if (node != null) {
+			if (n == actual)
+				level.add(node.key);
+			else {
+				getLevel0(node.left, n, level, actual + 1);
+				getLevel0(node.right, n, level, actual + 1);
+			}
+		}
+	}
+
 }

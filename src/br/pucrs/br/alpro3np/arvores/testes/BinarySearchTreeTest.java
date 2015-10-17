@@ -11,14 +11,16 @@ public class BinarySearchTreeTest {
 			tree.addObject(i);
 		}
 		
-		tree.preorder();
-		tree.central();
-		tree.postOrder();
+//		tree.preorder();
+//		tree.central();
+//		tree.postOrder();
 		
-		//System.out.println(tree);		
+		
+		
+		System.out.println(tree);		
 		//System.out.println(tree.isBalanced());
 		//System.out.println(tree.getMax());
-		//System.out.println(tree.getPath(30));
-		
+		System.out.println(tree.getPath(19));
+		System.out.println(tree.getLevel(3));		
 	}
 }
