@@ -318,4 +318,60 @@ public class BinarySearchTree<T extends Comparable<T>> {
 		}
 	}
 
+	public void questao7() {
+		questao7(root);
+	}
+
+	private void questao7(Node<T> node) {
+		if (node != null) {
+			
+			List<T> path = getPath(node.key);
+			boolean allOdds = checkAllEven(path);
+			if (!allOdds)
+				System.out.println(path);
+			
+			questao7(node.left);
+			questao7(node.right);
+			
+		}
+	}
+
+	public void questao8() {
+		for (int i = 0; i <= getHeight(); i++) {
+			List<T> level = getLevel(i);
+			boolean allOdds = checkAllOdd(level);
+			if (!allOdds)
+				System.out.println(level);
+		}
+
+	}
+
+	private boolean checkAllOdd(List<T> level) {
+		boolean temPar = false;
+		for (T t : level) {
+			if (t instanceof Integer) {
+				Integer v = (Integer) t;
+				if (v % 2 == 0) {
+					temPar = true;
+					break;
+				}
+			}
+		}
+		return temPar;
+	}
+
+	private boolean checkAllEven(List<T> level) {
+		boolean temPar = false;
+		for (T t : level) {
+			if (t instanceof Integer) {
+				Integer v = (Integer) t;
+				if (v % 2 != 0) {
+					temPar = true;
+					break;
+				}
+			}
+		}
+		return temPar;
+	}	
+
 }

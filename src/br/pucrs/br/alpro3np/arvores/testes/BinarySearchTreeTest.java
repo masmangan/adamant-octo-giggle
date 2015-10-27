@@ -20,7 +20,9 @@ public class BinarySearchTreeTest {
 		System.out.println(tree);		
 		//System.out.println(tree.isBalanced());
 		//System.out.println(tree.getMax());
-		System.out.println(tree.getPath(19));
-		System.out.println(tree.getLevel(3));		
+//		System.out.println(tree.getPath(19));
+//		System.out.println(tree.getLevel(3));
+		//tree.questao8();
+		tree.questao7();
 	}
 }
