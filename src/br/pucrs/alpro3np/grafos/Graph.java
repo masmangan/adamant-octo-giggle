@@ -19,8 +19,7 @@ public class Graph {
 		checkNode(b);
 		m[a][b] = v;
 	}
-	
-	
+
 	private void checkNode(int a) {
 		if (a <= 0 || a > m.length)
 			throw new IllegalArgumentException("Invalid node: " + a);
@@ -44,6 +43,33 @@ public class Graph {
 			s += "\n";
 		}
 		return s;
+	}
+
+	public void dijkstra() {
+	}
+
+	public void floydWarshall() {
+	}
+
+	public void prim() {
+	}
+
+	public void kruskal() {
+	}
+
+	public void fordFulkerson() {
+	}
+
+	public void topologica() {
+	}
+
+	public void ciclos() {
+	}
+
+	public void componentes() {
+	}
+
+	public void caminho() {
 	}
 
 }
