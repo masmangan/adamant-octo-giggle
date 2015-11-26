@@ -48,7 +48,7 @@ public class Graph {
 		checkNode(a);
 		checkNode(b);
 		m[a][b] = v;
-		//m[b][a] = v;
+		m[b][a] = v;
 	}
 
 	public List<Integer> getAdjacents(int a) {
@@ -75,7 +75,7 @@ public class Graph {
 	 */
 
 	private boolean marked[];
-	
+
 	public List<Integer> depth(int a) {
 		checkNode(a);
 		List<Integer> nodes = new ArrayList<>();
@@ -88,8 +88,8 @@ public class Graph {
 		nodes.add(a);
 		marked[a] = true;
 		for (Integer adj : getAdjacents(a)) {
-			//if (!nodes.contains(adj))
-			if (! marked[adj])
+			// if (!nodes.contains(adj))
+			if (!marked[adj])
 				depth0(adj, nodes);
 		}
 	}
@@ -107,17 +107,21 @@ public class Graph {
 
 	@Override
 	public String toString() {
+		return toStringMatriz(m);
+	}
+
+	private String toStringMatriz(int mat[][]) {
 		String s = "";
 		s += "   ";
-		for (int i = 1; i < m.length; i++) {
+		for (int i = 1; i < mat.length; i++) {
 			s += i + " ";
 		}
 		s += "\n";
 
-		for (int i = 1; i < m.length; i++) {
+		for (int i = 1; i < mat.length; i++) {
 			s += i + "  ";
-			for (int j = 1; j < m.length; j++) {
-				s += m[i][j] + " ";
+			for (int j = 1; j < mat.length; j++) {
+				s += mat[i][j] + " ";
 			}
 			s += "\n";
 		}
@@ -131,7 +135,43 @@ public class Graph {
 	public void dijkstra() {
 	}
 
-	public void floydWarshall() {
+	public int[][] floydWarshall() {
+		final int INFINITO = 2000;
+
+		int d[][] = new int[m.length][m.length];
+		int p[][] = new int[m.length][m.length];
+
+		for (int i = 0; i < m.length; i++) {
+			for (int j = 0; j < m.length; j++) {
+				if ( i != j && m[i][j] == 0)
+					d[i][j] = INFINITO;
+				else
+					d[i][j] = m[i][j];
+				
+				if ( i != j && m[i][j] != 0)
+					p[i][j] = i;
+			}
+		}
+		
+		System.out.println(toStringMatriz(d));
+
+		for (int k = 1; k < m.length; k++) {
+			for (int i = 1; i < m.length; i++) {
+				for (int j = 1; j < m.length; j++) {
+					if (d[i][j] > d[i][k] + d[k][j]) {
+						d[i][j] = d[i][k] + d[k][j];
+						p[i][j] = p[k][j];						
+//						p[j][i] = k;					//	
+						
+
+					}
+				}
+			}
+			System.out.println("K="+k+"\n"+toStringMatriz(d));
+			System.out.println("K="+k+"\n"+toStringMatriz(p));
+		}
+		
+		return d;
 	}
 
 	public void prim() {
